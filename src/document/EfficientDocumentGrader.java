@@ -9,7 +9,7 @@ public class EfficientDocumentGrader {
         try
         {
             System.out.println("Sentences, words, and syllables:");
-            BufferedReader br = new BufferedReader(new FileReader("test_cases/mod2TestCases.txt"));
+            BufferedReader br = new BufferedReader(new FileReader("test_cases/mod1TestCases.txt"));
             String line;
             PrintWriter out = new PrintWriter("grader_output/module2.part1.out", "utf-8");
             while ((line = br.readLine()) != null)
@@ -21,6 +21,20 @@ public class EfficientDocumentGrader {
             }
             out.print("\n");
             out.close();
+            br.close();
+
+            br = new BufferedReader(new FileReader("test_cases/mod1TestCases.txt"));
+            out = new PrintWriter("grader_output/module2.part2.out", "utf-8");
+            while ((line = br.readLine()) != null)
+            {
+                BasicDocument doc = new BasicDocument(line);
+                String result = doc.getFleschScore() + " ";
+                System.out.print(result);
+                out.print(result);
+            }
+            out.print("\n");
+            out.close();
+            System.out.print('\n');
             br.close();
         }
         catch (Exception e)
