@@ -45,37 +45,31 @@ public abstract class Document {
 	// This is a helper function that returns the number of syllables
 	// in a word.  You should write this and use it in your 
 	// BasicDocument class.
-	// You will probably NOT need to add a countWords or a countSentences method
-	// here.  The reason we put countSyllables here because we'll use it again
-	// next week when we implement the EfficientDocument class.
-	protected int countSyllables(String word)
+	protected static int countSyllables(String word)
 	{
-		List<String> syllables = getSyllables(word);
-		int syllableCount = 0;
-		if (!syllables.isEmpty()) {
-			syllableCount = syllables.size();
-			if (endsWithE(word) && syllableCount > 1 && ("e".equalsIgnoreCase(syllables.get(syllableCount-1)))) {
-				syllableCount--;
+	    //System.out.print("Counting syllables in " + word + "...");
+		int numSyllables = 0;
+		boolean newSyllable = true;
+		String vowels = "aeiouy";
+		char[] cArray = word.toCharArray();
+		for (int i = 0; i < cArray.length; i++)
+		{
+		    if (i == cArray.length-1 && Character.toLowerCase(cArray[i]) == 'e' 
+		    		&& newSyllable && numSyllables > 0) {
+                numSyllables--;
+            }
+		    if (newSyllable && vowels.indexOf(Character.toLowerCase(cArray[i])) >= 0) {
+				newSyllable = false;
+				numSyllables++;
+			}
+			else if (vowels.indexOf(Character.toLowerCase(cArray[i])) < 0) {
+				newSyllable = true;
 			}
 		}
-		return syllableCount;
+		//System.out.println( "found " + numSyllables);
+		return numSyllables;
 	}
-
-	private List<String> getSyllables(String word) {
-		List<String> syllables = new ArrayList<>();
-		Pattern splitter = Pattern.compile("[aeiouyAEIOUY]+");
-		Matcher m = splitter.matcher(word);
-		while (m.find()) {
-			syllables.add(m.group());
-		}
-		return syllables;
-	}
-
-	private boolean endsWithE(String word) {
-		char lastChar = word.charAt(word.length()-1);
-		return lastChar == 'e' || lastChar == 'E';
-	}
-
+	
 	/** A method for testing
 	 * 
 	 * @param doc The Document object to test
@@ -136,14 +130,10 @@ public abstract class Document {
 	/** return the Flesch readability score of this document */
 	public double getFleschScore()
 	{
-		float words = getNumWords();
-		float sentences = getNumSentences();
-		float syllables = getNumSyllables();
-
-	    double frs= 206.835 - 1.015 * ((double)words/sentences) - 84.6 * ((double)syllables/words);
-		System.out.format( "s: %4.0f, w: %4.0f, sy: %4.0f, Frs: %7.3f\n", sentences, words, syllables, frs);
-
-		return frs;
+		double wordCount = (double)getNumWords();
+		return 206.835 - (1.015 * ((wordCount)/getNumSentences())) 
+				- (84.6 * (((double)getNumSyllables())/wordCount));
+	
 	}
 	
 	
