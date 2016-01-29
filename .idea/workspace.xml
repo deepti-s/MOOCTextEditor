@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="2ee6fb71-9cce-4eb5-85b7-f0d75d152688" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/document/DocumentBenchmarking.java" afterPath="$PROJECT_DIR$/src/document/DocumentBenchmarking.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/document/EfficientDocumentGrader.java" afterPath="$PROJECT_DIR$/src/document/EfficientDocumentGrader.java" />
-    </list>
+    <list default="true" id="2ee6fb71-9cce-4eb5-85b7-f0d75d152688" name="Default" comment="" />
     <ignored path="MOOCTextEditor.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path="$PROJECT_DIR$/out/" />
@@ -793,12 +790,12 @@
       <workItem from="1453515188492" duration="10981000" />
       <workItem from="1453885771407" duration="2706000" />
       <workItem from="1454034448278" duration="2532000" />
-      <workItem from="1454042817482" duration="6231000" />
+      <workItem from="1454042817482" duration="6524000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="22450000" />
+    <option name="totallyTimeSpent" value="22743000" />
   </component>
   <component name="TodoView" selected-index="0">
     <todo-panel id="selected-file">
@@ -822,7 +819,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="76" y="23" width="1604" height="1027" extended-state="0" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
