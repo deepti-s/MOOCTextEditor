@@ -16,7 +16,17 @@ public class MyLinkedList<E> extends AbstractList<E> {
 
 	/** Create a new empty LinkedList */
 	public MyLinkedList() {
-		// TODO: Implement this method
+		// Create sentinel nodes
+		head = new LLNode<E>(null);
+		tail = new LLNode<E>(null);
+		initialize();
+	}
+
+	void initialize() {
+		size = 0;
+		// point head's next to tail; and tail's prev to head
+		head.next = tail;
+		tail.prev = head;
 	}
 
 	/**
@@ -25,16 +35,46 @@ public class MyLinkedList<E> extends AbstractList<E> {
 	 */
 	public boolean add(E element ) 
 	{
-		// TODO: Implement this method
-		return false;
+		add(size(), element);
+		return true;
 	}
 
 	/** Get the element at position index 
 	 * @throws IndexOutOfBoundsException if the index is out of bounds. */
 	public E get(int index) 
 	{
-		// TODO: Implement this method.
-		return null;
+		if (index < 0 || index >= size) {
+			throw new IndexOutOfBoundsException("Index: " + index + " Size: " + size);
+		}
+		return node(index).data;
+	}
+
+	/**
+	 * Returns the (non-null) Node at the specified element index.
+	 */
+	LLNode<E> node(int index) {
+		LLNode<E> result = head;
+		//determine if given index is in the lower end (half) or higher end (half) of list
+		int midpoint = size/2;
+		if (index < midpoint) {
+			// start from beginning of list i.e., from head
+			LLNode<E> x = head;
+			int i = 0;
+			while (i <= index) {
+				x = x.next;
+				i++;
+			}
+			return x;
+		} else {
+			// start from end of list i.e., from tail
+			LLNode<E> x = tail;
+			int i = size - 1;
+			while (i >= index) {
+				x = x.prev;
+				i--;
+			}
+			return x;
+		}
 	}
 
 	/**
@@ -44,15 +84,38 @@ public class MyLinkedList<E> extends AbstractList<E> {
 	 */
 	public void add(int index, E element ) 
 	{
-		// TODO: Implement this method
+		if (index < 0 || index > size) {
+			throw new IndexOutOfBoundsException("Index: " + index + " Size: " + size);
+		}
+
+		if (index == size) {
+			// link towards last
+			linkLast(element);
+		} else {
+			// link before the element at current index
+			LLNode<E> existingNode = node(index);
+			linkBefore(element, existingNode);
+		}
 	}
 
+	void linkLast(E element) {
+		linkBefore(element, tail);
+	}
+
+	void linkBefore(E element, LLNode<E> successorNode) {
+		LLNode<E> predecessorNode = successorNode.prev;
+		LLNode<E> newNode = new LLNode<E>(predecessorNode, element, successorNode);
+
+		predecessorNode.next = newNode;
+		successorNode.prev = newNode;
+
+		size++;
+	}
 
 	/** Return the size of the list */
 	public int size() 
 	{
-		// TODO: Implement this method
-		return -1;
+		return size;
 	}
 
 	/** Remove a node at the specified index and return its data element.
@@ -63,8 +126,26 @@ public class MyLinkedList<E> extends AbstractList<E> {
 	 */
 	public E remove(int index) 
 	{
-		// TODO: Implement this method
-		return null;
+		if (index < 0 || index >= size) {
+			throw new IndexOutOfBoundsException("Index: " + index + " Size: " + size);
+		}
+		return unlink(node(index));
+	}
+
+	E unlink(LLNode<E> node) {
+		E data = node.data;
+		LLNode<E> predecessorNode = node.prev;
+		LLNode<E> successorNode = node.next;
+
+		predecessorNode.next = successorNode;
+		successorNode.prev = predecessorNode;
+
+		node.prev = null;
+		node.next = null;
+		node.data = null;
+
+		size--;
+		return data;
 	}
 
 	/**
@@ -76,8 +157,15 @@ public class MyLinkedList<E> extends AbstractList<E> {
 	 */
 	public E set(int index, E element) 
 	{
-		// TODO: Implement this method
-		return null;
+		if (index < 0 || index >= size) {
+			throw new IndexOutOfBoundsException("Index: " + index + " Size: " + size);
+		}
+
+		LLNode<E> node = node(index);
+		E oldElement = node.data;
+		node.data = element;
+
+		return oldElement;
 	}   
 }
 
@@ -87,14 +175,15 @@ class LLNode<E>
 	LLNode<E> next;
 	E data;
 
-	// TODO: Add any other methods you think are useful here
-	// E.g. you might want to add another constructor
-
-	public LLNode(E e) 
-	{
-		this.data = e;
+	public LLNode(E e) {
 		this.prev = null;
+		this.data = e;
 		this.next = null;
 	}
 
+	public LLNode(LLNode<E> prev, E data, LLNode<E> next) {
+		this.prev = prev;
+		this.data = data;
+		this.next = next;
+	}
 }

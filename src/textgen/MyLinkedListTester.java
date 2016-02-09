@@ -3,12 +3,11 @@
  */
 package textgen;
 
-import static org.junit.Assert.*;
-
-import java.util.LinkedList;
-
 import org.junit.Before;
 import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 /**
  * @author UC San Diego MOOC team
@@ -113,8 +112,32 @@ public class MyLinkedListTester {
 		assertEquals("Remove: check a is correct ", 65, a);
 		assertEquals("Remove: check element 0 is correct ", (Integer)21, list1.get(0));
 		assertEquals("Remove: check size is correct ", 2, list1.size());
-		
-		// TODO: Add more tests here
+
+		assertEquals(list1.node(1), list1.node(0).next);
+		assertEquals(list1.head, list1.node(0).prev);
+		assertEquals(list1.node(0), list1.head.next);
+		assertEquals(list1.node(0), list1.node(1).prev);
+
+		try {
+			list1.remove(-1);
+			fail("Check out of bounds");
+		} catch (IndexOutOfBoundsException e) {
+			// expected, do nothing
+		}
+		try {
+			list1.remove(2);
+			fail("Check out of bounds");
+		} catch (IndexOutOfBoundsException e) {
+			// expected, do nothing
+		}
+
+		try {
+			emptyList.remove(0);
+			fail("Check out of bounds");
+		} catch (IndexOutOfBoundsException e) {
+			// expected, do nothing
+		}
+
 	}
 	
 	/** Test adding an element into the end of the list, specifically
@@ -123,8 +146,17 @@ public class MyLinkedListTester {
 	@Test
 	public void testAddEnd()
 	{
-        // TODO: implement this test
-		
+		//test adding to empty list
+		emptyList.add(12345);
+		verifyEmptyListAdd(12345);
+
+		// test adding to short list with elements already in it
+		shortList.add("C");
+		verifyShortListAdd("C");
+
+		// test adding to short list with elements already in it
+		longerList.add(10);
+		verifyLongerListAdd(10);
 	}
 
 	
@@ -132,7 +164,10 @@ public class MyLinkedListTester {
 	@Test
 	public void testSize()
 	{
-		// TODO: implement this test
+		assertEquals("Size of empty list should be 0!", 0, emptyList.size());
+		assertEquals("Size of short list must be 2!", 2, shortList.size());
+		assertEquals("Size of long list must be 10!", LONG_LIST_LENGTH, longerList.size());
+		assertEquals("Size of list1 must be 3!", 3, list1.size());
 	}
 
 	
@@ -144,19 +179,139 @@ public class MyLinkedListTester {
 	@Test
 	public void testAddAtIndex()
 	{
-        // TODO: implement this test
-		
+		//test adding to empty list, get should throw an exception
+		try {
+			// less than lower index (size, i.e. 0)
+			emptyList.add(-1, 999);
+			fail("Check out of bounds");
+		} catch (IndexOutOfBoundsException e) {
+			//expected, do nothing
+		}
+
+		try {
+			// more than higher index (size, i.e. 0)
+			emptyList.add(1, 999);
+			fail("Check out of bounds");
+		} catch (IndexOutOfBoundsException e) {
+			//expected, do nothing
+		}
+
+		// valid case of add
+		emptyList.add(0, 999);
+		verifyEmptyListAdd(999);
+
+		// test short list
+		try {
+			shortList.add(-1, "E");
+			fail("Check out of bounds");
+		}
+		catch (IndexOutOfBoundsException e) {
+			//expected, do nothing
+		}
+		try {
+			shortList.add(3, "E");
+			fail("Check out of bounds");
+		}
+		catch (IndexOutOfBoundsException e) {
+			//expected, do nothing
+		}
+		// valid case of add
+		shortList.add(1, "E");
+		assertEquals("E", shortList.get(1));
+		assertEquals(3, shortList.size());
+		assertEquals("A", shortList.get(0));
+		assertEquals("B", shortList.get(2));
+
+		assertEquals(shortList.node(2), shortList.node(1).next);
+		assertEquals(shortList.node(0), shortList.node(1).prev);
+		assertEquals(shortList.node(1), shortList.node(0).next);
+		assertEquals(shortList.node(1), shortList.node(2).prev);
+
+		// test longer list
+		try {
+			longerList.add(LONG_LIST_LENGTH+1, 333);
+			fail("Check out of bounds");
+		}
+		catch (IndexOutOfBoundsException e) {
+			//expected, do nothing
+		}
+		// valid case of add
+		longerList.add(LONG_LIST_LENGTH, 333);
+		assertEquals(333, longerList.get(LONG_LIST_LENGTH));
+		assertEquals(11, longerList.size());
+		assertEquals(9, longerList.get(LONG_LIST_LENGTH-1));
+
+		assertEquals(longerList.tail, longerList.node(LONG_LIST_LENGTH).next);
+		assertEquals(longerList.node(LONG_LIST_LENGTH-1), longerList.node(LONG_LIST_LENGTH).prev);
+		assertEquals(longerList.node(LONG_LIST_LENGTH), longerList.node(LONG_LIST_LENGTH-1).next);
+		assertEquals(longerList.node(LONG_LIST_LENGTH), longerList.tail.prev);
+
+		// test list1
+		// valid case of add to list1
+		list1.add(0, 16);
+		assertEquals(16, list1.get(0));
+		assertEquals(4, list1.size());
+		assertEquals(65, list1.get(1));
+
+		assertEquals(list1.node(1), list1.node(0).next);
+		assertEquals(list1.head, list1.node(0).prev);
+		assertEquals(list1.node(0), list1.head.next);
+		assertEquals(list1.node(0), list1.node(1).prev);
 	}
-	
+
 	/** Test setting an element in the list */
 	@Test
 	public void testSet()
 	{
-	    // TODO: implement this test
-	    
+		// test set list
+		try {
+			list1.set(-1, 333);
+			fail("Check out of bounds");
+		} catch (IndexOutOfBoundsException e) {
+			//expected, do nothing
+		} try {
+			longerList.set(LONG_LIST_LENGTH, 333);
+			fail("Check out of bounds");
+		} catch (IndexOutOfBoundsException e) {
+			//expected, do nothing
+		}  try {
+			emptyList.set(0, 1);
+		} catch (IndexOutOfBoundsException e) {
+		    //expected, do nothing
+		}
+		String element = shortList.set(1, "Z");
+		assertEquals("B", element);
+		assertEquals("Z", shortList.get(1));
 	}
-	
-	
-	// TODO: Optionally add more test methods.
+
+	private void verifyEmptyListAdd(Integer element) {
+		assertEquals(element, emptyList.get(0));
+		assertEquals(1, emptyList.size());
+
+		assertEquals(emptyList.tail, emptyList.node(0).next);
+		assertEquals(emptyList.head, emptyList.node(0).prev);
+		assertEquals(emptyList.node(0), emptyList.head.next);
+		assertEquals(emptyList.node(0), emptyList.tail.prev);
+	}
+
+	private void verifyShortListAdd(String element) {
+		assertEquals(element, shortList.get(2));
+		assertEquals(3, shortList.size());
+
+		assertEquals(shortList.tail, shortList.node(2).next);
+		assertEquals(shortList.node(1), shortList.node(2).prev);
+		assertEquals(shortList.node(2), shortList.node(1).next);
+		assertEquals(shortList.node(2), shortList.tail.prev);
+	}
+
+	private void verifyLongerListAdd(Integer element) {
+		assertEquals(element, longerList.get(10));
+		assertEquals(11, longerList.size());
+
+		assertEquals(longerList.tail, longerList.node(10).next);
+		assertEquals(longerList.node(9), longerList.node(10).prev);
+		assertEquals(longerList.node(10), longerList.node(9).next);
+		assertEquals(longerList.node(10), longerList.tail.prev);
+	}
 	
 }
