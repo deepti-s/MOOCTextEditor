@@ -150,15 +150,18 @@ public class MyLinkedListTester {
 	{
 		//test adding to empty list
 		emptyList.add(12345);
-		verifyEmptyListAdd(12345);
+		assertEquals((Integer)12345, emptyList.get(0));
+		assertEquals(1, emptyList.size());
 
 		// test adding to short list with elements already in it
 		shortList.add("C");
-		verifyShortListAdd("C");
+		assertEquals("C", shortList.get(2));
+		assertEquals(3, shortList.size());
 
 		// test adding to short list with elements already in it
 		longerList.add(10);
-		verifyLongerListAdd(10);
+		assertEquals((Integer)10, longerList.get(10));
+		assertEquals(11, longerList.size());
 
 		try {
 			list1.add(null);
@@ -206,7 +209,8 @@ public class MyLinkedListTester {
 
 		// valid case of add
 		emptyList.add(0, 999);
-		verifyEmptyListAdd(999);
+		assertEquals((Integer)999, emptyList.get(0));
+		assertEquals(1, emptyList.size());
 
 		// test short list
 		try {
@@ -230,13 +234,6 @@ public class MyLinkedListTester {
 		assertEquals("A", shortList.get(0));
 		assertEquals("B", shortList.get(2));
 
-		/* commenting out the prev/next pointer code because it only works if in the same package
-		assertEquals(shortList.node(2), shortList.node(1).next);
-		assertEquals(shortList.node(0), shortList.node(1).prev);
-		assertEquals(shortList.node(1), shortList.node(0).next);
-		assertEquals(shortList.node(1), shortList.node(2).prev);
-		*/
-
 		// test longer list
 		try {
 			longerList.add(LONG_LIST_LENGTH+1, 333);
@@ -247,16 +244,9 @@ public class MyLinkedListTester {
 		}
 		// valid case of add
 		longerList.add(LONG_LIST_LENGTH, 333);
-		assertEquals(333, longerList.get(LONG_LIST_LENGTH));
+		assertEquals((Integer)333, longerList.get(LONG_LIST_LENGTH));
 		assertEquals(11, longerList.size());
-		assertEquals(9, longerList.get(LONG_LIST_LENGTH-1));
-
-		/* commenting out the prev/next pointer code because it only works if in the same package
-		assertEquals(longerList.tail, longerList.node(LONG_LIST_LENGTH).next);
-		assertEquals(longerList.node(LONG_LIST_LENGTH-1), longerList.node(LONG_LIST_LENGTH).prev);
-		assertEquals(longerList.node(LONG_LIST_LENGTH), longerList.node(LONG_LIST_LENGTH-1).next);
-		assertEquals(longerList.node(LONG_LIST_LENGTH), longerList.tail.prev);
-		*/
+		assertEquals((Integer)9, longerList.get(LONG_LIST_LENGTH-1));
 
 		// test list1
 		try {
@@ -266,16 +256,9 @@ public class MyLinkedListTester {
 		}
 		// valid case of add to list1
 		list1.add(0, 16);
-		assertEquals(16, list1.get(0));
+		assertEquals((Integer)16, list1.get(0));
 		assertEquals(4, list1.size());
-		assertEquals(65, list1.get(1));
-
-		/* commenting out the prev/next pointer code because it only works if in the same package
-		assertEquals(list1.node(1), list1.node(0).next);
-		assertEquals(list1.head, list1.node(0).prev);
-		assertEquals(list1.node(0), list1.head.next);
-		assertEquals(list1.node(0), list1.node(1).prev);
-		*/
+		assertEquals((Integer)65, list1.get(1));
 	}
 
 	/** Test setting an element in the list */
@@ -310,40 +293,46 @@ public class MyLinkedListTester {
 		assertEquals("Z", shortList.get(1));
 	}
 
-	private void verifyEmptyListAdd(Integer element) {
-		assertEquals(element, emptyList.get(0));
-		assertEquals(1, emptyList.size());
-
-		/* commenting out the prev/next pointer code because it only works if in the same package
+	private void verifyEmptyListAdd_Pointers() {
 		assertEquals(emptyList.tail, emptyList.node(0).next);
 		assertEquals(emptyList.head, emptyList.node(0).prev);
 		assertEquals(emptyList.node(0), emptyList.head.next);
 		assertEquals(emptyList.node(0), emptyList.tail.prev);
-		*/
 	}
 
-	private void verifyShortListAdd(String element) {
-		assertEquals(element, shortList.get(2));
-		assertEquals(3, shortList.size());
-
-		/* commenting out the prev/next pointer code because it only works if in the same package
+	private void verifyShortListAddEnd_Pointers() {
 		assertEquals(shortList.tail, shortList.node(2).next);
 		assertEquals(shortList.node(1), shortList.node(2).prev);
 		assertEquals(shortList.node(2), shortList.node(1).next);
 		assertEquals(shortList.node(2), shortList.tail.prev);
-		*/
 	}
 
-	private void verifyLongerListAdd(Integer element) {
-		assertEquals(element, longerList.get(10));
-		assertEquals(11, longerList.size());
-
-		/* commenting out the prev/next pointer code because it only works if in the same package
+	private void verifyLongerListAddEnd_Pointers() {
 		assertEquals(longerList.tail, longerList.node(10).next);
 		assertEquals(longerList.node(9), longerList.node(10).prev);
 		assertEquals(longerList.node(10), longerList.node(9).next);
 		assertEquals(longerList.node(10), longerList.tail.prev);
-		*/
+	}
+
+	private void verifyShortListAddAtIndex_Pointers() {
+		assertEquals(shortList.node(2), shortList.node(1).next);
+		assertEquals(shortList.node(0), shortList.node(1).prev);
+		assertEquals(shortList.node(1), shortList.node(0).next);
+		assertEquals(shortList.node(1), shortList.node(2).prev);
+	}
+
+	private void verifyLongerListAddAtIndex_Pointers() {
+		assertEquals(longerList.tail, longerList.node(LONG_LIST_LENGTH).next);
+		assertEquals(longerList.node(LONG_LIST_LENGTH-1), longerList.node(LONG_LIST_LENGTH).prev);
+		assertEquals(longerList.node(LONG_LIST_LENGTH), longerList.node(LONG_LIST_LENGTH-1).next);
+		assertEquals(longerList.node(LONG_LIST_LENGTH), longerList.tail.prev);
+	}
+
+	private void verifyList1AddAtIndex_Pointers() {
+		assertEquals(list1.node(1), list1.node(0).next);
+		assertEquals(list1.head, list1.node(0).prev);
+		assertEquals(list1.node(0), list1.head.next);
+		assertEquals(list1.node(0), list1.node(1).prev);
 	}
 	
 }

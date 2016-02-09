@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2ee6fb71-9cce-4eb5-85b7-f0d75d152688" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/textgen/MyLinkedList.java" afterPath="$PROJECT_DIR$/src/textgen/MyLinkedList.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/textgen/MyLinkedListTester.java" afterPath="$PROJECT_DIR$/src/textgen/MyLinkedListTester.java" />
     </list>
     <ignored path="MOOCTextEditor.iws" />
@@ -55,8 +54,8 @@
       <file leaf-file-name="MyLinkedListTester.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/textgen/MyLinkedListTester.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.34960273" vertical-offset="4207" max-vertical-offset="5295">
-              <caret line="303" column="35" selection-start-line="303" selection-start-column="35" selection-end-line="303" selection-end-column="35" />
+            <state vertical-scroll-proportion="0.59137344" vertical-offset="4249" max-vertical-offset="5130">
+              <caret line="320" column="64" selection-start-line="320" selection-start-column="64" selection-end-line="320" selection-end-column="64" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -966,12 +965,12 @@
       <workItem from="1454042817482" duration="6971000" />
       <workItem from="1454132538603" duration="109000" />
       <workItem from="1454942808564" duration="5675000" />
-      <workItem from="1454955564582" duration="12859000" />
+      <workItem from="1454955564582" duration="13660000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="41833000" />
+    <option name="totallyTimeSpent" value="42634000" />
   </component>
   <component name="TodoView" selected-index="0">
     <todo-panel id="selected-file">
@@ -1450,8 +1449,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/textgen/MyLinkedListTester.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.34960273" vertical-offset="4207" max-vertical-offset="5295">
-          <caret line="303" column="35" selection-start-line="303" selection-start-column="35" selection-end-line="303" selection-end-column="35" />
+        <state vertical-scroll-proportion="0.59137344" vertical-offset="4249" max-vertical-offset="5130">
+          <caret line="320" column="64" selection-start-line="320" selection-start-column="64" selection-end-line="320" selection-end-column="64" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
