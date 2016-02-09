@@ -79,13 +79,17 @@ public class MyLinkedList<E> extends AbstractList<E> {
 
 	/**
 	 * Add an element to the list at the specified index
-	 * @param The index where the element should be added
+	 * @param index index where the element should be added
 	 * @param element The element to add
 	 */
 	public void add(int index, E element ) 
 	{
 		if (index < 0 || index > size) {
 			throw new IndexOutOfBoundsException("Index: " + index + " Size: " + size);
+		}
+
+		if (element == null) {
+			throw new NullPointerException("Cannot insert null into the list");
 		}
 
 		if (index == size) {
@@ -159,6 +163,10 @@ public class MyLinkedList<E> extends AbstractList<E> {
 	{
 		if (index < 0 || index >= size) {
 			throw new IndexOutOfBoundsException("Index: " + index + " Size: " + size);
+		}
+
+		if (element == null) {
+			throw new NullPointerException("Cannot insert null into the list");
 		}
 
 		LLNode<E> node = node(index);
