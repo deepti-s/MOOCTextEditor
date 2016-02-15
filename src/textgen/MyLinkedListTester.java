@@ -293,6 +293,7 @@ public class MyLinkedListTester {
 		assertEquals("Z", shortList.get(1));
 	}
 
+	/* commenting out pointers testing
 	private void verifyEmptyListAdd_Pointers() {
 		assertEquals(emptyList.tail, emptyList.node(0).next);
 		assertEquals(emptyList.head, emptyList.node(0).prev);
@@ -334,5 +335,6 @@ public class MyLinkedListTester {
 		assertEquals(list1.node(0), list1.head.next);
 		assertEquals(list1.node(0), list1.node(1).prev);
 	}
+	*/
 	
 }
