@@ -1,10 +1,8 @@
 package spelling;
 
-import java.util.List;
-import java.util.Set;
-import java.util.Collection;
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 
 /** 
  * An trie data structure that implements the Dictionary and the AutoComplete ADT
@@ -28,8 +26,20 @@ public class AutoCompleteDictionaryTrie implements  Dictionary, AutoComplete {
 	 * That is, you should convert the string to all lower case as you insert it. */
 	public boolean addWord(String word)
 	{
-	    //TODO: Implement this method.
-	    return false;
+		if (word != null && !isWord(word)) {
+			TrieNode currentNode = root, nextNode = new TrieNode();
+			for (Character ch : word.toLowerCase().toCharArray()) {
+				nextNode = currentNode.insert(ch);
+				if (nextNode == null) {
+					nextNode = currentNode.getChild(ch);
+				}
+				currentNode = nextNode;
+			}
+			nextNode.setEndsWord(true);
+			size++;
+			return true;
+		}
+		return false;
 	}
 	
 	/** 
@@ -38,8 +48,7 @@ public class AutoCompleteDictionaryTrie implements  Dictionary, AutoComplete {
 	 */
 	public int size()
 	{
-	    //TODO: Implement this method
-	    return 0;
+	    return size;
 	}
 	
 	
@@ -47,7 +56,19 @@ public class AutoCompleteDictionaryTrie implements  Dictionary, AutoComplete {
 	@Override
 	public boolean isWord(String s) 
 	{
-	    // TODO: Implement this method
+		if (s != null) {
+			TrieNode currentNode = root, nextNode;
+			int index = 0;
+			while (index < s.length()) {
+				nextNode = currentNode.getChild(Character.toLowerCase(s.charAt(index)));
+				if (nextNode == null) {
+					return false;
+				} else if (s.length() == ++index && nextNode.endsWord()) {
+					return true;
+				}
+				currentNode = nextNode;
+			}
+		}
 		return false;
 	}
 
@@ -55,29 +76,45 @@ public class AutoCompleteDictionaryTrie implements  Dictionary, AutoComplete {
 	 *  * Returns up to the n "best" predictions, including the word itself,
      * in terms of length
      * If this string is not in the trie, it returns null.
-     * @param text The text to use at the word stem
-     * @param n The maximum number of predictions desired.
-     * @return A list containing the up to n best predictions
+     * @param prefix The text to use at the word stem
+     * @param numCompletions The maximum number of predictions desired.
+     * @return A list containing the up to "numCompletions" best predictions
      */@Override
      public List<String> predictCompletions(String prefix, int numCompletions) 
      {
-    	 // TODO: Implement this method
-    	 // This method should implement the following algorithm:
-    	 // 1. Find the stem in the trie.  If the stem does not appear in the trie, return an
-    	 //    empty list
-    	 // 2. Once the stem is found, perform a breadth first search to generate completions
-    	 //    using the following algorithm:
-    	 //    Create a queue (LinkedList) and add the node that completes the stem to the back
-    	 //       of the list.
-    	 //    Create a list of completions to return (initially empty)
-    	 //    While the queue is not empty and you don't have enough completions:
-    	 //       remove the first Node from the queue
-    	 //       If it is a word, add it to the completions list
-    	 //       Add all of its child nodes to the back of the queue
-    	 // Return the list of completions
-    	 
-         return null;
+		 if (prefix == null) {
+			 return null;
+		 }
+		 List<String> suggestedCompletions = new ArrayList<String>();
+		 TrieNode stemNode = getStemNode(prefix);
+
+		 if (stemNode != null) {
+			 LinkedList<TrieNode> queue = new LinkedList<TrieNode>();
+			 queue.add(stemNode);
+
+			 while(!queue.isEmpty() && suggestedCompletions.size() < numCompletions) {
+				 TrieNode currentNode = queue.remove();
+				 if(currentNode.endsWord()) {
+					 suggestedCompletions.add(currentNode.getText());
+				 }
+				 queue.addAll(currentNode.getChildNodes());
+			 }
+
+		 }
+         return suggestedCompletions;
      }
+
+	private TrieNode getStemNode(String prefix) {
+		TrieNode stemNode = root;
+		if (!prefix.isEmpty()) {
+			int index = 0;
+			while (index < prefix.length() && stemNode != null) {
+				stemNode = stemNode.getChild(Character.toLowerCase(prefix.charAt(index++)));
+			}
+		}
+		return stemNode;
+
+	}
 
  	// For debugging
  	public void printTree()

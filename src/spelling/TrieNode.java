@@ -1,5 +1,6 @@
 package spelling;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Set;
 
@@ -80,6 +81,10 @@ class TrieNode {
 	public Set<Character> getValidNextCharacters()
 	{
 		return children.keySet();
+	}
+
+	public Collection<TrieNode> getChildNodes() {
+		return children.values();
 	}
 
 }
